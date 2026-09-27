@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Miniflow - Logistics Dashboard</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f5f7fb;
+            color: #1f2937;
+        }
+
+        .app {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 240px;
+            background: #111827;
+            color: white;
+            padding: 25px 15px;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 35px;
+            padding-left: 10px;
+        }
+
+        .menu-title {
+            font-size: 11px;
+            color: #9ca3af;
+            margin: 20px 10px 10px;
+            text-transform: uppercase;
+        }
+
+        .menu-item {
+            padding: 12px 14px;
+            margin-bottom: 5px;
+            border-radius: 8px;
+            cursor: pointer;
+            color: #d1d5db;
+        }
+
+        .menu-item:hover,
+        .menu-item.active {
+            background: #2563eb;
+            color: white;
+        }
+
+        /* Main */
+        .main {
+            flex: 1;
+            padding: 25px 30px;
+        }
+
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .topbar h1 {
+            font-size: 28px;
+        }
+
+        .profile {
+            background: white;
+            padding: 10px 16px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        /* KPI cards */
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background: white;
+            padding: 22px;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .card-title {
+            color: #6b7280;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+        .card-value {
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        /* Content */
+        .content-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 20px;
+        }
+
+        .panel {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .panel h2 {
+            margin-bottom: 20px;
+            font-size: 18px;
+        }
+
+        .chart {
+            height: 250px;
+            display: flex;
+            align-items: end;
+            gap: 20px;
+            padding: 20px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .bar {
+            flex: 1;
+            background: #2563eb;
+            border-radius: 6px 6px 0 0;
+        }
+
+        .bar:nth-child(1) {
+            height: 45%;
+        }
+
+        .bar:nth-child(2) {
+            height: 65%;
+        }
+
+        .bar:nth-child(3) {
+            height: 55%;
+        }
+
+        .bar:nth-child(4) {
+            height: 80%;
+        }
+
+        .bar:nth-child(5) {
+            height: 70%;
+        }
+
+        .bar:nth-child(6) {
+            height: 90%;
+        }
+
+        .activity {
+            padding: 14px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .status {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            background: #dcfce7;
+            color: #166534;
+            margin-top: 5px;
+        }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            .sidebar {
+                width: 190px;
+            }
+
+            .cards {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .sidebar {
+                display: none;
+            }
+
+            .main {
+                padding: 20px;
+            }
+
+            .cards {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="app">
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+
+        <div class="logo">
+            🚚 Miniflow
+        </div>
+
+        <div class="menu-title">Main</div>
+
+        <div class="menu-item active" onclick="location.reload()">
+    📊 Dashboard
+</div>
+
+<div class="menu-item" onclick="openCreateShipment()">
+    ➕ Create Shipment
+</div>
+
+<div class="menu-item" onclick="openShipments()">
+    📦 Shipments
+</div>
+
+<div class="menu-item" onclick="openTracking()">
+    🔎 Tracking
+</div>
+
+<div class="menu-item" onclick="openNDR()">⚠️ NDR / NPR</div>
+
+        <div class="menu-title">Management</div>
+
+<div class="menu-item" onclick="openReports()">
+    📈 Reports
+</div>
+
+        <div class="menu-item" onclick="openCarriers()">
+    🚚 Carriers
+</div>
+
+        <div class="menu-item" onclick="openCustomers()">
+    👥 Customers
+</div>
+
+        <div class="menu-item" onclick="openSettings()">
+    ⚙️ Settings
+</div>
+
+    </aside>
+
+
+    <!-- Main Content -->
+    <main class="main">
+
+        <div class="topbar">
+
+            <div>
+                <h1>Dashboard</h1>
+                <p style="color:#6b7280; margin-top:5px;">
+                    Welcome to Miniflow Logistics
+                </p>
+            </div>
+
+            <div class="profile">
+                👤 Pooja
+            </div>
+
+        </div>
+
+
+        <!-- KPI Cards -->
+        <section class="cards">
+
+            <div class="card">
+                <div class="card-title">
+                    Total Shipments
+                </div>
+
+               <div class="card-value" id="dashboardTotalShipments">
+    0
+</div>
+            </div>
+
+
+            <div class="card">
+                <div class="card-title">
+                    Delivered
+                </div>
+
+                <div class="card-value" id="dashboardDelivered">
+    0
+</div>
+            </div>
+
+
+            <div class="card">
+                <div class="card-title">
+                    In Transit
+                </div>
+
+      <div class="card-value" id="dashboardInTransit">
+    0
+</div>
+            </div>
+
+
+            <div class="card">
+                <div class="card-title">
+                    Open NDR
+                </div>
+
+                <div class="card-value" id="dashboardNDR">
+    0
+</div>
+            </div>
+
+        </section>
+
+
+        <!-- Dashboard Content -->
+        <section class="content-grid">
+
+            <!-- Shipment Chart -->
+            <div class="panel">
+
+                <h2>
+                    Shipment Volume
+                </h2>
+
+                <div class="chart" id="shipmentVolumeChart">
+
+    <div class="bar" style="height:20px;"></div>
+    <div class="bar" style="height:20px;"></div>
+    <div class="bar" style="height:20px;"></div>
+    <div class="bar" style="height:20px;"></div>
+    <div class="bar" style="height:20px;"></div>
+    <div class="bar" style="height:20px;"></div>
+
+</div>
+
+                <div style="
+                    display:flex;
+                    justify-content:space-between;
+                    color:#6b7280;
+                    font-size:12px;
+                    margin-top:10px;
+                ">
+                    <span>Apr</span>
+                    <span>May</span>
+                    <span>Jun</span>
+                    <span>Jul</span>
+                    <span>Aug</span>
+                    <span>Sep</span>
+                </div>
+
+            </div>
+
+<!-- Recent Activity -->
+<div class="panel">
+
+    <h2>
+        Recent Activity
+    </h2>
+
+    <div id="dashboardRecentActivity">
+
+        <div class="activity">
+            Loading recent activity...
+        </div>
+
+    </div>
+
+</div>
+
+</section>
+
+<script src="app.js"></script>
+
+</body>
+</html>
